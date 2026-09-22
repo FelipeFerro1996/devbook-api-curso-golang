@@ -1,0 +1,5 @@
+name: devBook
+variables:
+  - name: url
+    value: localhost:5000
+    description: ""
