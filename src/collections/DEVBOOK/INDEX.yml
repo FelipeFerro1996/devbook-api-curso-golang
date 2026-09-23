@@ -5,7 +5,11 @@ info:
 
 http:
   method: GET
-  url: "{{url}}/usuarios"
+  url: "{{url}}/usuarios?usuario=j"
+  params:
+    - name: usuario
+      value: j
+      type: query
   auth: inherit
 
 settings:
