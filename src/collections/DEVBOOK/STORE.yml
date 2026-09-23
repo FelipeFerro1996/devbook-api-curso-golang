@@ -6,6 +6,15 @@ info:
 http:
   method: POST
   url: "{{url}}/usuarios"
+  body:
+    type: json
+    data: |-
+      {
+        "nome": "Juninho",
+        "nick": "juni",
+        "email": "juninho@email.com",
+        "senha": "123456"
+      }
   auth: inherit
 
 settings:
