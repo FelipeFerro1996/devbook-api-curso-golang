@@ -6,6 +6,15 @@ info:
 http:
   method: PUT
   url: "{{url}}/usuarios/1"
+  body:
+    type: json
+    data: |-
+      {
+        "id": 1,
+        "nome": "João teste",
+        "nick": "joaoteste",
+        "email": "joaoteste@email.com.br"
+      }
   auth: inherit
 
 settings:
