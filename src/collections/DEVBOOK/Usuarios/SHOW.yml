@@ -1,12 +1,14 @@
 info:
-  name: DELETE
+  name: SHOW
   type: http
-  seq: 5
+  seq: 1
 
 http:
-  method: DELETE
-  url: "{{url}}/usuarios/1"
-  auth: inherit
+  method: GET
+  url: "{{url}}/usuarios/2"
+  auth:
+    type: bearer
+    token: "{{token}}"
 
 settings:
   encodeUrl: true

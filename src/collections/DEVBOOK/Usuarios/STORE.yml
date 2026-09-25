@@ -1,24 +1,23 @@
 info:
-  name: Login
+  name: STORE
   type: http
   seq: 1
 
 http:
   method: POST
-  url: "{{url}}/login"
+  url: "{{url}}/usuarios"
   body:
     type: json
     data: |-
       {
+        "nome": "Juninho",
+        "nick": "juni",
         "email": "juninho@email.com",
         "senha": "123456"
       }
-  auth: inherit
-
-runtime:
-  scripts:
-    - type: after-response
-      code: bru.setEnvVar("token", res.getBody());
+  auth:
+    type: bearer
+    token: "{{token}}"
 
 settings:
   encodeUrl: true

@@ -10,7 +10,9 @@ http:
     - name: usuario
       value: j
       type: query
-  auth: inherit
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3OTAzODQxODMsInVzdWFyaW9JZCI6MX0.WQj1TaP7xcGWqOgg0ytAbBdRJ5VQE6_PZSfn-tKtJYA
 
 settings:
   encodeUrl: true
