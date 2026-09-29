@@ -1,11 +1,11 @@
 info:
-  name: Seguir
+  name: Deixar de Seguir
   type: http
-  seq: 6
+  seq: 2
 
 http:
   method: POST
-  url: "{{url}}/usuarios/2/seguir"
+  url: "{{url}}/usuarios/2/parar-de-seguir"
   auth:
     type: bearer
     token: "{{token}}"
