@@ -1,11 +1,11 @@
 info:
-  name: Seguir
+  name: Busca todos seguidore
   type: http
-  seq: 4
+  seq: 1
 
 http:
-  method: POST
-  url: "{{url}}/usuarios/2/seguir"
+  method: GET
+  url: "{{url}}/usuarios/3/seguidores"
   auth:
     type: bearer
     token: "{{token}}"

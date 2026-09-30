@@ -218,7 +218,7 @@ func SeguirUsuario(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repositorio := repositorios.NovoRepositoriosDeUsuarios(db)
-	if erro = repositorio.Seguir(usuarioID, seguidorID); erro != nil {
+	if erro = repositorio.Seguir(seguidorID, usuarioID); erro != nil {
 		respostas.Erro(w, http.StatusInternalServerError, erro)
 		return
 	}
@@ -253,11 +253,64 @@ func PararDeSeguirUsuario(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repositorio := repositorios.NovoRepositoriosDeUsuarios(db)
-	if erro := repositorio.PararDeSeguir(usuarioID, seguidorID); erro != nil {
+	if erro := repositorio.PararDeSeguir(seguidorID, usuarioID); erro != nil {
 		respostas.Erro(w, http.StatusInternalServerError, erro)
 		return
 	}
 
 	respostas.JSON(w, http.StatusNoContent, nil)
 
+}
+
+func BuscarTodosOsSeguidores(w http.ResponseWriter, r *http.Request) {
+
+	parametros := mux.Vars(r)
+	usuarioID, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
+	if erro != nil {
+		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repositorios.NovoRepositoriosDeUsuarios(db)
+
+	seguidores, erro := repositorio.BuscarTodosOsSeguidores(usuarioID)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	respostas.JSON(w, http.StatusOK, seguidores)
+
+}
+
+func BuscarTodosOsSeguindo(w http.ResponseWriter, r *http.Request) {
+	parametros := mux.Vars(r)
+	usuarioID, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
+	if erro != nil {
+		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repositorios.NovoRepositoriosDeUsuarios(db)
+	seguindo, erro := repositorio.BuscarTodosOsSeguindo(usuarioID)
+	if erro != nil {
+		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	respostas.JSON(w, http.StatusOK, seguindo)
 }

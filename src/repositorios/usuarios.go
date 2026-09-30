@@ -177,3 +177,113 @@ func (repositorio Usuarios) PararDeSeguir(usuario_id, seguidor_id uint64) error 
 
 	return nil
 }
+
+func (repositorio Usuarios) BuscarTodosOsSeguidores(usuarioId uint64) ([]modelos.Usuario, error) {
+
+	// linhas, erro := repositorio.db.Query(
+	// 	`select
+	// 		nome,
+	// 		email,
+	// 		nick
+	// 	from
+	// 		usuarios
+	// 	where
+	// 		id in (
+	// 			select
+	// 				seguidor_id
+	// 			from
+	// 				seguidores
+	// 			where
+	// 				usuario_id = ?
+	// 		)`,
+	// 	usuarioId)
+	linhas, erro := repositorio.db.Query(
+		`select
+			u.id, 
+			u.nome, 
+			u.email, 
+			u.nick,
+			u.criadoEm 
+		from 
+			usuarios as u
+		inner join
+			seguidores as s on u.id = s.seguidor_id where usuario_id = ?`,
+		usuarioId)
+	if erro != nil {
+		return nil, erro
+	}
+	defer linhas.Close()
+
+	var usuarios []modelos.Usuario
+
+	for linhas.Next() {
+
+		var usuario modelos.Usuario
+
+		if erro := linhas.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Email,
+			&usuario.Nick,
+			&usuario.CriadoEm,
+		); erro != nil {
+			return nil, erro
+		}
+
+		usuarios = append(usuarios, usuario)
+
+	}
+
+	if erro = linhas.Err(); erro != nil {
+		return nil, erro
+	}
+
+	return usuarios, nil
+
+}
+
+func (repositorio Usuarios) BuscarTodosOsSeguindo(usuarioID uint64) ([]modelos.Usuario, error) {
+	linhas, erro := repositorio.db.Query(
+		`select
+			u.id, 
+			u.nome, 
+			u.email, 
+			u.nick,
+			u.criadoEm 
+		from 
+			usuarios as u
+		inner join
+			seguidores as s on u.id = s.usuario_id where seguidor_id = ?`,
+		usuarioID)
+	if erro != nil {
+		return nil, erro
+	}
+	defer linhas.Close()
+
+	var usuarios []modelos.Usuario
+
+	for linhas.Next() {
+
+		var usuario modelos.Usuario
+
+		if erro := linhas.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Email,
+			&usuario.Nick,
+			&usuario.CriadoEm,
+		); erro != nil {
+			return nil, erro
+		}
+
+		usuarios = append(usuarios, usuario)
+
+	}
+
+	if erro = linhas.Err(); erro != nil {
+		return nil, erro
+	}
+
+	return usuarios, nil
+
+}
