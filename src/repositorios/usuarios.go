@@ -287,3 +287,34 @@ func (repositorio Usuarios) BuscarTodosOsSeguindo(usuarioID uint64) ([]modelos.U
 	return usuarios, nil
 
 }
+
+func (repositorio Usuarios) BuscarSenhaSalvaNoBanco(UsuarioId uint64) (string, error) {
+	linha, erro := repositorio.db.Query("select senha from usuarios where id = ?", UsuarioId)
+	if erro != nil {
+		return "", erro
+	}
+	defer linha.Close()
+
+	var usuario modelos.Usuario
+	if linha.Next() {
+		if erro := linha.Scan(&usuario.Senha); erro != nil {
+			return "", erro
+		}
+	}
+
+	return usuario.Senha, nil
+}
+
+func (repositorio Usuarios) AtualizarSenha(UsuarioId uint64, senha string) error {
+	statement, erro := repositorio.db.Prepare("update usuarios set senha = ? where id = ?")
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro := statement.Exec(senha, UsuarioId); erro != nil {
+		return erro
+	}
+
+	return nil
+}

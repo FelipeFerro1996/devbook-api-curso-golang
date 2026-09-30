@@ -3,4 +3,4 @@ variables:
   - name: url
     value: localhost:5000
   - name: token
-    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3OTA4MTg4MzAsInVzdWFyaW9JZCI6MX0.7Zbn5XYkCop6thW-bNCr0Kf1bBphYVbWVWNyCEYgf-o
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3OTA4MjI4NTUsInVzdWFyaW9JZCI6MX0.AhC7jgHXUVWzou-_q2Yp2EuX9OshdeyMOSa_DcY6yCA
