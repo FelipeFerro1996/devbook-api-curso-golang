@@ -1,0 +1,25 @@
+info:
+  name: Store
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/publicacoes"
+  body:
+    type: json
+    data: |-
+      {
+        "titulo": "Minha primeira publicação",
+        "conteudo": "Conteúdo da minha primeira publicação"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
