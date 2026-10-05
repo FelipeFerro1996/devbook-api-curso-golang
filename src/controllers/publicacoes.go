@@ -163,3 +163,45 @@ func AtualizarPublicacao(w http.ResponseWriter, r *http.Request) {
 	respostas.JSON(w, http.StatusNoContent, nil)
 
 }
+
+func DeletarPublicacao(w http.ResponseWriter, r *http.Request) {
+	usuarioId, erro := autenticacao.ExtrairusuarioID(r)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	parametros := mux.Vars(r)
+	publicacoId, erro := strconv.ParseUint(parametros["publicacaoId"], 10, 64)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repositorios.NovoRepositoriosDePublicacoes(db)
+	publicacaoSalva, erro := repositorio.BuscarPorId(publicacoId)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	if usuarioId != publicacaoSalva.AutorID {
+		respostas.Erro(w, http.StatusForbidden, errors.New("não é póssivel excluir uma publicação de outro usuario"))
+		return
+	}
+
+	if erro := repositorio.DeletarPublicacao(publicacoId); erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	respostas.JSON(w, http.StatusNoContent, nil)
+
+}
