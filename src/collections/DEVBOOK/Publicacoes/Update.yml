@@ -1,0 +1,25 @@
+info:
+  name: Update
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{url}}/publicacoes/1"
+  body:
+    type: json
+    data: |-
+      {
+        "titulo": "Novo Titulo",
+        "conteudo": "Novo conteudo"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
