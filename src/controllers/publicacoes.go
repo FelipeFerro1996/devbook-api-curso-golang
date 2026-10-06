@@ -205,3 +205,40 @@ func DeletarPublicacao(w http.ResponseWriter, r *http.Request) {
 	respostas.JSON(w, http.StatusNoContent, nil)
 
 }
+
+func BuscaPublicacoesUsuario(w http.ResponseWriter, r *http.Request) {
+	usuarioLogado, erro := autenticacao.ExtrairusuarioID(r)
+	if erro != nil {
+		respostas.Erro(w, http.StatusForbidden, erro)
+		return
+	}
+
+	parametros := mux.Vars(r)
+	usuarioID, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	if usuarioID != usuarioLogado {
+		respostas.Erro(w, http.StatusForbidden, errors.New("Você não pode buscar publicações de outro usuário"))
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repositorios.NovoRepositoriosDePublicacoes(db)
+	publicacoes, erro := repositorio.BuscaPublicacoesUsuario(usuarioID)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	respostas.JSON(w, http.StatusOK, publicacoes)
+
+}

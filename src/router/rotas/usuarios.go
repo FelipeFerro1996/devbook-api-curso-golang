@@ -66,4 +66,10 @@ var rotasUsuarios = []Rota{
 		Funcao:             controllers.AtualizarSenha,
 		RequerAutenticacao: true,
 	},
+	{
+		URI:                "/usuarios/{usuarioId}/publicacoes",
+		Metodo:             http.MethodGet,
+		Funcao:             controllers.BuscaPublicacoesUsuario,
+		RequerAutenticacao: true,
+	},
 }
