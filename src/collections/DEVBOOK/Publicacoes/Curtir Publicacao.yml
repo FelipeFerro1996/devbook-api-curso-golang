@@ -1,0 +1,18 @@
+info:
+  name: Curtir Publicacao
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{url}}/publicacoes/1/curtir"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
